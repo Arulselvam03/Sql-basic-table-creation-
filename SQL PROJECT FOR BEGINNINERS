@@ -1,0 +1,65 @@
+//create database 
+create database BMS_DB1;
+
+//use that database
+use BMS_DB1;
+
+//create table customer_personal_infi
+
+create table customer_personal_info
+(
+customer_id varchar(5),
+customer_name varchar(30),
+date_of_birth date,
+guardian_name varchar(30),
+address varchar(50),
+contact_no bigint(10),
+mail_id varchar(30),
+gender char(1),
+maritial_status varchar(10),
+identification_docs_type varchar(20),
+id_docs_no varchar(20),
+citizenship varchar(10),
+constraint cust_pers_info_pk primary key(customer_id)
+);
+
+//create table customer_reference_info
+
+create table customer_reference_info
+(
+customer_id varchar(5),
+reference_acc_name varchar(20),
+reference_acc_no bigint(16),
+reference_acc_address varchar(50),
+relation varchar(25),
+constraint cust_ref_info_pk primary key(customer_id),
+constraint cust_refs_info_fk foreign key(customer_id) references customer_personal_info(customer_id)
+);
+
+//create table bank_info
+
+create table bank_info
+(
+IFSC_CODE VARCHAR(15),
+BANK_NAME VARCHAR(25),
+BRANCH_NAME VARCHAR(25),
+CONSTRAINT BANK_INFO_PK PRIMARY KEY(IFSC_CODE)
+); 
+
+
+//create table account_info
+
+create table account_info
+(
+account_no bigint(16),
+customer_id varchar(5),
+account_type varchar(10),
+registration_date date,
+activation_date date,
+ifsc_code varchar(10),
+interest decimal(7,2),
+initial_deposit bigint(10),
+CONSTRAINT acc_info_PK PRIMARY key(account_no),
+CONSTRAINT acc_info_pers_fk foreign key(customer_id) references customer_personal_info(customer_id),
+CONSTRAINT acc_info_bank_fk foreign key(ifsc_code) references bank_info(ifsc_code)
+);
